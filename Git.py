@@ -31,14 +31,14 @@ else:
 updater = Updater(token=BOT_TOKEN, workers=1)
 dispatcher = updater.dispatcher
 
-print("If you need more help, join @GitGramChat in Telegram.")
+print("If you need more help, chat @GitHelpBot in Telegram.")
 
 
 def start(_bot, update):
     """/start message for bot"""
     message = update.effective_message
     message.reply_text(
-        f"This is the Updates watcher for {PROJECT_NAME}. I am just notify users about what's happen on their Git repositories thru webhooks.\n\nYou need to [self-host](https://waa.ai/GitGram) or see /help to use this bot on your groups.",
+        f"This is the Updates watcher for {PROJECT_NAME}. I am just notify users about what's happen on their Git repositories thru webhooks.\n\nYou need to [self-host](https://github/Xlaaf/git) or see /help to use this bot on your groups.",
         parse_mode="markdown")
 
 
@@ -55,7 +55,7 @@ def support(_bot, update):
     """Links to Support"""
     message = update.effective_message
     message.reply_text(
-        f"*Getting Support*\n\nTo get support in using the bot, join [the GitGram support](https://t.me/GitGramChat).",
+        f"*Getting Support*\n\nTo get support in using the bot, Chat [the Git support](https://t.me/GitHelpBot).",
         parse_mode="markdown"
     )
 
@@ -64,7 +64,7 @@ def source(_bot, update):
     """Link to Source"""
     message = update.effective_message
     message.reply_text(
-        f"*Source*:\n[GitGram Repo](https://waa.ai/GitGram).",
+        f"*Source*:\n[Git Repo](https://github/Xlaaf/git).",
         parse_mode="markdown"
     )
 
@@ -144,7 +144,7 @@ def git_api(groupid):
         sender_name = data['sender']['login']
         response = post_tg(
             groupid,
-            f"🙌 Successfully set webhook for <a href='{repo_url}'>{repo_name}</a> by <a href='{sender_url}'>{sender_name}</a>!",
+            f"🛠️ Successfully set webhook for <a href='{repo_url}'>{repo_name}</a> by <a href='{sender_url}'>{sender_name}</a>!",
             "html"
         )
         return response
@@ -162,14 +162,14 @@ def git_api(groupid):
                 commit_msg = escape(commit['message'])
             commits_text += f"{commit_msg}\n<a href='{commit['url']}'>{commit['id'][:7]}</a> - {commit['author']['name']} {escape('<')}{commit['author']['email']}{escape('>')}\n\n"
             if len(commits_text) > 1000:
-                text = f"""✨ <b>{escape(data['repository']['name'])}</b> - New {len(data['commits'])} commits ({escape(data['ref'].split('/')[-1])})
+                text = f"""🥳 <b>{escape(data['repository']['name'])}</b> - New {len(data['commits'])} commits ({escape(data['ref'].split('/')[-1])})
 {commits_text}
 """
                 response = post_tg(groupid, text, "html")
                 commits_text = ""
         if not commits_text:
             return jsonify({"ok": True, "text": "Commits text is none"})
-        text = f"""✨ <b>{escape(data['repository']['name'])}</b> - New {len(data['commits'])} commits ({escape(data['ref'].split('/')[-1])})
+        text = f"""💛 <b>{escape(data['repository']['name'])}</b> - New {len(data['commits'])} commits ({escape(data['ref'].split('/')[-1])})
 {commits_text}
 """
         if len(data['commits']) > 10:
@@ -186,7 +186,7 @@ def git_api(groupid):
 """
             response = post_tg(groupid, text, "html")
             return response
-        text = f"""🚨 New {data['action']} issue for <b>{escape(data['repository']['name'])}</b>
+        text = f"""🤖 New {data['action']} issue for <b>{escape(data['repository']['name'])}</b>
 <b>{escape(data['issue']['title'])}</b>
 {escape(data['issue']['body'])}
 
